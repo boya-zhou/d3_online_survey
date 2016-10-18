@@ -1,13 +1,97 @@
-<script src="https://d3js.org/d3.v4.min.js"></script>
-
-
-<style>
-</style>
-
-<body>
-  <h1> Experiment </h1>
-</body>
-
-<script>
-  console.log(d3); // test if d3 is loaded
-</script>
+<!DOCTYPE html>
+<html lang="en">
+  <title>Experiment</title>
+  <meta charset="utf-8">
+  <style>
+    /* CSS part */
+    body {
+      margin:0;
+      position:fixed;
+      top:0;
+      right:0;
+      bottom:0;
+      left:0;
+    }
+    h1 {
+      color: #000000;
+      font-family: 'Lucida Console';
+      font-weight: normal;
+      font-size: 2.5em;
+      letter-spacing: .2em;
+      line-height: 1.1em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    #container {
+      width:800px;
+    }
+    p {
+      width:650px;
+      color: #000000;
+      font-family: 'Lucida Console';
+      text-align: center;
+      font-size: 1.1em;
+      line-height: 1.5em;
+      text-anchor: middle;
+      padding: 5px;
+    }
+    #header {
+      width:800px;
+      height: 50px;
+      padding: 5px;
+      background: #ffffff;
+    }
+    #content {
+      background-color:#ffffff;
+      height:400px;
+      width:650px;
+      float:left;
+    }
+    #footer {
+      width:800px;
+      height: 50px;
+      background: #1abc9c;
+      float:left;
+    }
+    button {
+      margin: 10px;
+      font-size: 12px;
+    }
+    #disagree {
+      float:left;
+    }
+    #agree {
+      float:right;
+    }
+  </style>
+  
+  <body>
+    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    <div id = "container">
+      <div id ="header">
+        <h1>Experiment</h1>
+      </div>
+      <div id ="content">
+        <script>
+          var content = d3.select("#content");
+          content.append("p")
+                 .text('In this experiemnt, you care asked to judge');
+          content.append("p")
+                 .attr("class", "aim")
+                 .text('what is the percent of a smaller value to a larger value in several charts.');
+          content.append("p")
+                 .text('We will not record any other information from you except your answers. Click "AGREE" button to begin.');
+          
+          function enterExperiment() {
+            location.href = "bar.html";
+          }
+        </script>
+      </div>
+    <div id ="footer">
+      <button type="button" id = "disagree" onclick="exit()">DISAGREE</button>
+      <button type="button" id = "agree" onclick="enterExperiment()">AGREE</button>
+    </div>
+  </div>
+  </body>
+</html>
