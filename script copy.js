@@ -8,9 +8,7 @@ $(document).ready(function() {
 			]
 
 	*/
-	var userList = [];
-	var numQuestion = 6;
-	var originNum = numQuestion;
+	var resultList = [];
 
 	function createSvg(){
 		$('#warper').prepend('<div id = \'content\'></div>');
@@ -18,44 +16,56 @@ $(document).ready(function() {
 	};
 
 	$('#welButton').on('click',function(){
+
+		var singleDict = {};
+
 		$('#welcome').remove();
-		$('#note').show();
+		createSvg();
 
-		$('#noteButton').on('click',function(){
-			createSvg();
-			$('#note').remove();
-			var sys = $('#content').myfunction();
-			$('#nextButton').show();
-			slider();
+		//get sysSet
+		var sys = $('#content').myfunction();
+		singleDict['sysSet'] = sys;
 
-		});
+		$('#nextButton').show();
+		
+		//set number of question
+		var numQuestion = 6;
+		var originNum = numQuestion;
 
 		$('#next').on('click',function(){
 
+			
 			$('#content').remove();
+
 			if (numQuestion == 1){
+
 				$('#nextButton').remove();
 				$('#thanks').show();
+
 			}else{
+
 				createSvg();
 				$('#content').myfunction();	
-				slider();
-				
-				console.log(+$('#slider').val());
+
+				$('#slider').on('click',function(userSet){
+					 var userSet = +$('#slider').val();
+					$('#percent-display').text(userSet);
+					console.log(userSet);
+				});
+
 				numQuestion = numQuestion - 1;
 				$('#done').text((originNum - numQuestion + 1) + ' / ' + originNum);
+				// singleDict['userSet'] = userSet;
+				// console.log(singleDict);
 			}
+
+		resultList.push(singleDict);
+		console.log(resultList);
+
 		});
+
 	});
 });
-
-/*slider interface*/
-function slider(){
-	$('#slider').on('click',function(){
-					var userSet = +$('#slider').val();
-					$('#percent-display').text(userSet);					
-				});
-}
 
 /* select random chart type tp show */
 (function( $ ){
