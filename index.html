@@ -1,97 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
-  <title>Experiment</title>
-  <meta charset="utf-8">
-  <style>
-    /* CSS part */
-    body {
-      margin:0;
-      position:fixed;
-      top:0;
-      right:0;
-      bottom:0;
-      left:0;
-    }
-    h1 {
-      color: #000000;
-      font-family: 'Lucida Console';
-      font-weight: normal;
-      font-size: 2.5em;
-      letter-spacing: .2em;
-      line-height: 1.1em;
-      text-align: center;
-      text-transform: uppercase;
-    }
-    #container {
-      width:800px;
-    }
-    p {
-      width:650px;
-      color: #000000;
-      font-family: 'Lucida Console';
-      text-align: center;
-      font-size: 1.1em;
-      line-height: 1.5em;
-      text-anchor: middle;
-      padding: 5px;
-    }
-    #header {
-      width:800px;
-      height: 50px;
-      padding: 5px;
-      background: #ffffff;
-    }
-    #content {
-      background-color:#ffffff;
-      height:400px;
-      width:650px;
-      float:left;
-    }
-    #footer {
-      width:800px;
-      height: 50px;
-      background: #1abc9c;
-      float:left;
-    }
-    button {
-      margin: 10px;
-      font-size: 12px;
-    }
-    #disagree {
-      float:left;
-    }
-    #agree {
-      float:right;
-    }
-  </style>
-  
-  <body>
-    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
-    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-    <div id = "container">
-      <div id ="header">
-        <h1>Experiment</h1>
-      </div>
-      <div id ="content">
-        <script>
-          var content = d3.select("#content");
-          content.append("p")
-                 .text('In this experiemnt, you care asked to judge');
-          content.append("p")
-                 .attr("class", "aim")
-                 .text('what is the percent of a smaller value to a larger value in several charts.');
-          content.append("p")
-                 .text('We will not record any other information from you except your answers. Click "AGREE" button to begin.');
-          
-          function enterExperiment() {
-            location.href = "bar.html";
-          }
-        </script>
-      </div>
-    <div id ="footer">
-      <button type="button" id = "disagree" onclick="exit()">DISAGREE</button>
-      <button type="button" id = "agree" onclick="enterExperiment()">AGREE</button>
-    </div>
-  </div>
-  </body>
+<html>
+<head>
+	<title>04-Experiment</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div id = 'warper'>
+		<div id = 'welcome'>
+			<h2>How accurately can you read a chart?</h2>
+			<p id = 'welText'>
+				You will be shown 12 visualizations of 10 random numbers. 
+		        Two elements will be marked in each visualization.
+		        Indicate what percent the smaller element is of the larger element using the slider,
+		        then click <b>Let's Start!</b>
+	        </p>
+        	<input type="button" id="welButton" value="Let's start!">
+		</div>
+		<div id = 'note'>
+			<p>this is some note to help user finish</p>
+			<input type = 'button' id = 'noteButton' value = 'got it'>
+		</div>
+		<div>
+			<form id='nextButton' action="#">
+                The smaller element is
+                <input id="slider" type="range" min="0" max="100" step="1">
+                <span id="percent-display">50</span>% of the larger element.
+                <input id="next" type="submit" value="Next">
+                <span id="done">1 / 6</span>
+            </form>
+		</div>
+		<div id = 'thanks'>
+			<p>Thank you for your participation.</p>
+		</div>
+	</div>
+	<script src="jquery-3.1.1.js"></script>
+	<script src="https://d3js.org/d3.v3.min.js"></script>
+	<script src="https://d3js.org/d3-random.v1.min.js"></script>
+	<script src="script.js"></script>
+</body>
 </html>
