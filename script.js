@@ -20,33 +20,51 @@ $(document).ready(function() {
 	$('#welButton').on('click',function(){
 		$('#welcome').remove();
 		$('#note').show();
+	});
 
-		$('#noteButton').on('click',function(){
+
+	$('#noteButton').on('click',function(userList){
+		
+		createSvg();
+		$('#note').remove();
+		var sys = $('#content').myfunction();
+		$('#nextButton').show();
+
+		slider();
+	});
+
+	$('#next').on('click',function(){
+
+		var singleDict = {};
+		singleDict['userSet'] = +$('#percent-display').text();
+		//console.log(singleDict);
+		
+		userList.push(singleDict);
+		//console.log(userList);
+
+		$('#content').remove();
+		if (numQuestion == 1){
+			$('#nextButton').remove();
+			$('#thanks').show();
+		}else{
 			createSvg();
-			$('#note').remove();
-			var sys = $('#content').myfunction();
-			$('#nextButton').show();
+			$('#content').myfunction();	
 			slider();
 
-		});
-
-		$('#next').on('click',function(){
-
-			$('#content').remove();
-			if (numQuestion == 1){
-				$('#nextButton').remove();
-				$('#thanks').show();
-			}else{
-				createSvg();
-				$('#content').myfunction();	
-				slider();
-				
-				console.log(+$('#slider').val());
-				numQuestion = numQuestion - 1;
-				$('#done').text((originNum - numQuestion + 1) + ' / ' + originNum);
-			}
-		});
+			//console.log(+$('#slider').val());
+			numQuestion = numQuestion - 1;
+			$('#done').text((originNum - numQuestion + 1) + ' / ' + originNum);
+		}
 	});
+
+	console.log(userList);
+
+	// /*write file*/
+	// require("fs").writeFile(
+	//     './' + '00' + '.result',
+	//     //arr.map(function(v){ return v.join(', ')).join('\n'),
+	//     function (err) { console.log(err ? 'Error :'+err : 'ok') }
+	// );
 });
 
 /*slider interface*/
