@@ -11,6 +11,20 @@ $(document).ready(function() {
 	var userList = [];
 	var numQuestion = 6;
 	var originNum = numQuestion;
+	var sys = 0;
+
+    var randomNum = getRandomInt(1,7) - 1;
+
+	var latinSquare = [
+		['F','B','A','C','D','E'],
+		['E','C','B','F','A','D'],
+		['D','A','C','E','F','B'],
+		['A','D','E','B','C','F'],
+		['B','F','D','A','E','C'],
+		['C','E','F','D','B','A']
+	]
+
+	var order = latinSquare[randomNum];
 
 	function createSvg(){
 		$('#warper').prepend('<div id = \'content\'></div>');
@@ -27,7 +41,7 @@ $(document).ready(function() {
 		
 		createSvg();
 		$('#note').remove();
-		var sys = $('#content').myfunction();
+		sys = $('#content').myfunction(order[0]);
 		$('#nextButton').show();
 
 		slider();
@@ -37,6 +51,7 @@ $(document).ready(function() {
 
 		var singleDict = {};
 		singleDict['userSet'] = +$('#percent-display').text();
+		singleDict['sysSet'] = sys;
 		//console.log(singleDict);
 		
 		// push each user input value to userList
@@ -47,9 +62,11 @@ $(document).ready(function() {
 		if (numQuestion == 1){
 			$('#nextButton').remove();
 			$('#thanks').show();
+			var table = $.makeTable(userList);
+			$(table).appendTo("#thanks");
 		}else{
 			createSvg();
-			$('#content').myfunction();	
+			sys = $('#content').myfunction(order[originNum - numQuestion + 1]);
 			slider();
 
 			//console.log(+$('#slider').val());
@@ -78,21 +95,22 @@ $(document).ready(function() {
 
 
 /* select random chart type tp show */
+//reference : http://hamsterandwheel.com/grids/index2d.php
 (function( $ ){
-   $.fn.myfunction = function() {
+   $.fn.myfunction = function(orderSingle) {
 
-   		var randomInt = getRandomInt(1, 4);
-		var sys;
-   		if (randomInt == 1){
-   			sys = makeBar();
+   		var randomInt = orderSingle;
+   		
+   		if ((randomInt =='A') || (randomInt =='D')){
+   			var sys = makeBar();
    		}
-		else if(randomInt == 2){
-   			sys = makePie();
+		else if((randomInt =='B') || (randomInt =='E')){
+   			var sys = makePie();
    		}
-		else if(randomInt == 3){
-			sys = makeRadial();
+		else if((randomInt =='C') || (randomInt =='F')){
+			var sys = makeRadial();
 		}
-    	return sys;
+    	return Math.round(sys);
    }; 
 })( jQuery );
 
@@ -115,6 +133,25 @@ function getRandomInt(min, max) {
 }
 
 
+//reference: http://stackoverflow.com/questions/1051061/convert-json-array-to-an-html-table-in-jquery
+$.makeTable = function (mydata) {
+    var table = $('<table border=1>');
+    var tblHeader = "<tr>";
+    for (var k in mydata[0]) tblHeader += "<th>" + k + "</th>";
+    tblHeader += "</tr>";
+    $(tblHeader).appendTo(table);
+    $.each(mydata, function (index, value) {
+        var TableRow = "<tr>";
+        $.each(value, function (key, val) {
+            TableRow += "<td>" + val + "</td>";
+        });
+        TableRow += "</tr>";
+        $(table).append(TableRow);
+    });
+    return ($(table));
+};
+
+
 
 /* make Bar chart */
 function makeBar(){
@@ -134,16 +171,19 @@ function makeBar(){
       }
 
       var barWidth = w/dataBar.length - barPadding;
-      var chosenA = getRandomInt(0, N-1);
+      var chosenA = getRandomInt(0, N);
       var chosenB;
       for (i=0; i<10; i++) {
-        chosenB = getRandomInt(0, N-1);
+        chosenB = getRandomInt(0, N);
         if (chosenB != chosenA) {
           i = 10;
         }
       }
       var dataChosen = [[dataBar[chosenA], chosenA],
                         [dataBar[chosenB], chosenB]];
+	  var max = d3.max([dataBar[chosenA], dataBar[chosenB]]);
+	  var min = d3.min([dataBar[chosenA], dataBar[chosenB]]);
+	  var realPercent = (min * 100)/max;
 
       svg.selectAll("rect")
          .data(dataBar)
@@ -165,17 +205,8 @@ function makeBar(){
                     .attr("r", 3)
                     .attr("fill", "#000000");
 
-     return chosenA;
+     return realPercent;
 
-	 /*
-
-	 Real percent: 
-
-	 max = d3.max([dataBar[chosenA], dataBar[chosenB]]);
-	 min = d3.min([dataBar[chosenA], dataBar[chosenB]]);
-	 realPercent = (min * 100)/max;
-
-     */
 };
 
 
@@ -207,6 +238,9 @@ function makePie(){
 	      i = 10;
 	    }
 	  }
+	  var max = d3.max([dataPie[chosenA], dataPie[chosenB]]);
+	  var min = d3.min([dataPie[chosenA], dataPie[chosenB]]);
+	  var realPercent = (min * 100)/max;
 
 	  var pie = d3.layout.pie();
 	  var dataChosen = [pie(dataPie)[chosenA], pie(dataPie)[chosenB]];
@@ -242,17 +276,7 @@ function makePie(){
 	                .attr("r", 3)
 	                .attr("fill", "#000000");
 
-	  return chosenA;
-
-	 /*
-
-	 Real percent: 
-
-	 max = d3.max([dataPie[chosenA], dataPie[chosenB]]);
-	 min = d3.min([dataPie[chosenA], dataPie[chosenB]]);
-	 realPercent = (min * 100)/max;
-
-     */
+	  return realPercent;
 
 };
 
@@ -293,15 +317,18 @@ function makeRadial() {
       });
     
 	  /* random picked number */
-      var chosenA = getRandomInt(0, numBars - 1);
+      var chosenA = getRandomInt(0, numBars);
       var chosenB;
       for (i=0; i<10; i++) {
-          chosenB = getRandomInt(0, numBars - 1);
+          chosenB = getRandomInt(0, numBars);
           if (chosenB != chosenA) {
               i = 10;
           }
       }
       var dataChosen = [chosenA, chosenB];
+	  var max = d3.max([values[chosenA], values[chosenB]]);
+	  var min = d3.min([values[chosenA], values[chosenB]]);
+	  var realPercent = (min * 100)/max;
   
       var extent = d3.extent(dataRadial, function(d) { return d.value; });
       var barScale = d3.scale.linear()
@@ -346,17 +373,6 @@ function makeRadial() {
           .style("font-weight","bold")
           .text("·");
 
-	  return chosenA;
-
-
-	 /*
-
-	 Real percent: 
-
-	 max = d3.max([values[chosenA], values[chosenB]]);
-	 min = d3.min([values[chosenA], values[chosenB]]);
-	 realPercent = (min * 100)/max;
-
-     */
+	  return realPercent;
 
 }
