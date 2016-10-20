@@ -123,11 +123,6 @@ var svg = d3.select('svg')
       .startAngle(function(d,i) { return (i * 2 * Math.PI) / numBars; })
       .endAngle(function(d,i) { return ((i + 1) * 2 * Math.PI) / numBars; })
       .innerRadius(0);
-          
-  var markArc = d3.svg.arc()
-      .startAngle(function(d,i) { return (i * 2 * Math.PI) / numBars; })
-      .endAngle(function(d,i) { return ((i + 1) * 2 * Math.PI) / numBars; })
-      .innerRadius(20);
 
   var segments = svg.selectAll("path")
                     .data(dataRadial)
@@ -140,19 +135,7 @@ var svg = d3.select('svg')
               return arc(d, index);
           });
           
-    svg.selectAll("circle")
-                        .data(dataChosen)
-                        .enter()
-                        .append("circle")
-                        .attr("transform", "translate(" + function(d, index) {
-      d.outerRadius = d.value;
-      return markArc(d, index).centroid(d); 
-    } + ")")
-                        .attr("r", 5)
-                        .attr("fill", "#000000");
-
-          
-            // Marks
+  // Marks
            var markRadius = barHeight-140;
 
        var marks = svg.append("g")
@@ -172,8 +155,10 @@ var svg = d3.select('svg')
         .attr("startOffset", function(d, i) {return d * 100 / numBars + 50 / numBars + '%';})
         .style("font-weight","bold")
         .text("·");
-
-
+          
+          
+          
+          
           var content = d3.select("#content");
           content.append("p")
                  .text('Two values are marked with dots.');
