@@ -2,7 +2,7 @@ Assignment 4 - Replicating a Classic Experiment
 ===
 <<<<<<< HEAD
 
-Project Link: [Link](http://boyazhou1993.github.io/04-Experiment/index.html?#) to my homework1.
+Project Link: [Link](http://boyazhou1993.github.io/04-Experiment/index.html) to my homework1.
 
 =======
 [Link](http://boyazhou1993.github.io/04-Experiment/index.html)
