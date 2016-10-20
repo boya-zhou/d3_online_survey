@@ -1,0 +1,46 @@
+#expContent,#nextButton,#note,#thanks {
+	display: none;
+}
+
+/*
+
+html, body, #wraper {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+
+
+#welButton {
+    font-size: inherit;
+    border: none;
+    color: white;
+    background-color: black;
+    margin: 3px 6px 3px 36px;
+    padding: 10px 20px;
+    transition: margin .5s, padding .5s;
+}
+
+#warper {
+	font-family: sans-serif;
+	text-align: center;
+	vertical-align: middle;
+
+}
+
+body {
+	
+    display: table-cell;
+    margin: 0;
+    padding: 0;
+    
+}
+
+#thanks, #welcome {
+    text-align: left;
+    max-width: 30em;
+    margin: auto;
+}
+*/
