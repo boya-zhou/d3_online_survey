@@ -33,8 +33,8 @@ $(document).ready(function() {
 		slider();
 	});
 
-	$('#next').on('click',function(){
-
+	$('#next').on('click',function(event){
+		event.preventDefault();
 		var singleDict = {};
 		singleDict['userSet'] = +$('#percent-display').text();
 		//console.log(singleDict);
