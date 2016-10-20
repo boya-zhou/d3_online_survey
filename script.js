@@ -39,6 +39,7 @@ $(document).ready(function() {
 		singleDict['userSet'] = +$('#percent-display').text();
 		//console.log(singleDict);
 		
+		// push each user input value to userList
 		userList.push(singleDict);
 		//console.log(userList);
 
@@ -72,6 +73,7 @@ $(document).ready(function() {
 		var encodedUri = encodeURI(csvContent);
 		window.open(encodedUri);
 	});
+
 });
 
 
@@ -79,15 +81,16 @@ $(document).ready(function() {
 (function( $ ){
    $.fn.myfunction = function() {
 
-   		var randomInt = getRandomInt(1,4);
-   		if (randomInt ==1){
-   			var sys = makeBar();
+   		var randomInt = getRandomInt(1, 4);
+		var sys;
+   		if (randomInt == 1){
+   			sys = makeBar();
    		}
 		else if(randomInt == 2){
-   			var sys = makePie();
+   			sys = makePie();
    		}
 		else if(randomInt == 3){
-			var sys = makeRadial();
+			sys = makeRadial();
 		}
     	return sys;
    }; 
@@ -325,11 +328,12 @@ function makeRadial() {
       var markRadius = barHeight - 140;
 
       var marks = svg.append("g")
-                     .classed("marks", true)
-					 .append("def")
-                     .append("path")
-                     .attr("id", "label-path")
-					 .attr("d", "m0 " + -markRadius + " a" + markRadius + " " + markRadius + " 0 1,1 -0.01 0");
+                     .classed("marks", true);
+
+	  marks.append("def")
+           .append("path")
+		   .attr("id", "label-path")
+		   .attr("d", "m0 " + -markRadius + " a" + markRadius + " " + markRadius + " 0 1,1 -0.01 0");
 
       marks.selectAll("text")
            .data(dataChosen)
