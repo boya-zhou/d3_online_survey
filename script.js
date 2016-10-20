@@ -75,16 +75,6 @@ function slider(){
 				});
 }
 
-/* select random chart type tp show */
-(function( $ ){
-   $.fn.myfunction = function() {
-      var sys = makeBar();
-      return sys;
-   }; 
-})( jQuery );
-
-// Returns a random integer between min (included) and max (excluded)
-// Using Math.round() will give you a non-uniform distribution!
 // Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 /* generate random number */
 function getRandomInt(min, max) {
@@ -93,47 +83,136 @@ function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min)) + min;
 }
 
+/* select random chart type tp show */
+(function( $ ){
+   $.fn.myfunction = function() {
+
+   		var randomInt = getRandomInt(1,3);
+   		if (randomInt ==1){
+   			var sys = makePie();
+   		}else if(randomInt == 2){
+   			var sys = makeBar();
+   		}
+    	return sys;
+   }; 
+})( jQuery );
+
+
+
 /* make Bar chart */
 function makeBar(){
 	  
 	  var content = d3.select("#content");
 
+      var svg = d3.select("svg");
+      var w = 500,
+          h = 100,
+          N = 10,
+          barPadding = 15;
+          
+      var dataBar = [];
+      for (var i=0; i<N; i++) {
+          var data = Math.random() * 100;   // random number (0-100)
+          dataBar.push(data);
+      }
+
+      var barWidth = w/dataBar.length - barPadding;
+      var chosenA = getRandomInt(0, N-1);
+      var chosenB;
+      for (i=0; i<10; i++) {
+        chosenB = getRandomInt(0, N-1);
+        if (chosenB != chosenA) {
+          i = 10;
+        }
+      }
+      var dataChosen = [[dataBar[chosenA], chosenA],
+                        [dataBar[chosenB], chosenB]];
+
+      svg.selectAll("rect")
+         .data(dataBar)
+         .enter()
+         .append("rect")
+         .attr("x", function(d, i) { return 140 + i * (w/dataBar.length); })
+         .attr("y", function(d) { return 180 + h - 2.5 * d; })
+         .attr("width", barWidth)
+         .attr("height", function(d) { return d * 2.5; })
+         .attr("fill", "#ffffff")
+         .attr("stroke", "#000000");
+
+      var mark = svg.selectAll("circle")
+                    .data(dataChosen)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function(d, i) { return 140 + d[1] * (w/dataBar.length) + barWidth * 0.5; })
+                    .attr("cy", function(d) { return 0.5 * (360 + 2 * h - 2.5 * d[0]); })
+                    .attr("r", 5)
+                    .attr("fill", "#000000");
+
+     return chosenA;
+};
+
+function makePie(){
+
+	  var content = d3.select("#content");
+
 	  var svg = d3.select("svg");
 	  var w = 500,
 	      h = 100,
-	      N = 10,
-	      barPadding = 7;
-	      
-	  var dataBar = [];
+	      N = 10;
+	   
+	  var outerRadius = 150,
+	      innerRadius = 0;
+	  
+	  var dataPie = [];
 	  for (var i=0; i<N; i++) {
 	      var data = Math.random() * 100;   // random number (0-100)
-	      dataBar.push(data);
+	      dataPie.push(data);
 	  }
 
-	  var barWidth = w/dataBar.length - barPadding;
 	  var chosenA = getRandomInt(0, N-1);
-	  // console.log(chosenA);
-	  // console.log(dataBar[chosenA]);
+	  var chosenB;
+	  for (i=0; i<10; i++) {
+	    chosenB = getRandomInt(0, N-1);
+	    if (chosenB != chosenA) {
+	      i = 10;
+	    }
+	  }
 
-	  svg.selectAll("rect")
-	     .data(dataBar)
-	     .enter()
-	     .append("rect")
-	     .attr("x", function(d, i) { return 150 + i * (w/dataBar.length); })
-	     .attr("y", function(d) { return 150 + h - 2 * d; })
-	     .attr("width", barWidth)
-	     .attr("height", function(d) { return d * 2; })
-	     .attr("fill", "#ffffff")
-	     .attr("stroke", "#000000");
+	  var pie = d3.layout.pie();
+	  var dataChosen = [pie(dataPie)[chosenA], pie(dataPie)[chosenB]];
+	  //console.log(dataChosen);
 
-	  svg.selectAll("circle")
-	     .data(dataBar)
-	     .enter()
-	     .append("circle")
-	     .attr("cx", function(d) { return 150 + chosenA * (w/dataBar.length) + barWidth * 0.5; })
-	     .attr("cy", function(d) { return 0.5 * (300 + 2 * h - 2 * dataBar[chosenA]); })
-	     .attr("r", 5)
-	     .attr("fill", "#000000");
+	  var arc = d3.svg.arc()
+	                  .innerRadius(innerRadius)
+	                  .outerRadius(outerRadius);
+	  
+	  // set up groups
+	  var arcs = svg.selectAll("g.arc")
+	                .data(pie(dataPie))
+	                .enter()
+	                .append("g")
+	                .attr("class", "arc")
+	                .attr("transform", "translate("+outerRadius+", "+outerRadius+")");
+	                
+	  // location of marks
+	  var markArc = d3.svg.arc()
+						  .outerRadius(outerRadius - 20)
+						  .innerRadius(outerRadius - 80);
+	  
+	  // draw arc paths
+	  arcs.append("path")
+	      .attr("d", arc)
+	      .attr("fill", "#ffffff")
+	      .attr("stroke", "#000000");
+	  
+	  arcs.selectAll("circle")
+	                .data(dataChosen)
+	                .enter()
+	                .append("circle")
+	                .attr("transform", function(d) { return "translate(" + markArc.centroid(d) + ")"; })
+	                .attr("r", 5)
+	                .attr("fill", "#000000");
 
-	     return chosenA;
+	  return chosenA;
+
 };
