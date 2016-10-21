@@ -82,7 +82,7 @@ $(document).ready(function() {
 			console.log(userList);
 			$.ajax({
 				method: "GET",
-				url: 'http://a2decad7.ngrok.io/store_data',
+				url: 'https://a2decad7.ngrok.io/store_data',
 				contentType: 'application/json;charset=UTF-8',
 				data: {user_list: JSON.stringify(userList)}
 			}).done(function (data) {
