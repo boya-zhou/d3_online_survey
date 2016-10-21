@@ -2,9 +2,10 @@ $(document).ready(function() {
 
 	/* result list, each element is a dictionary
 	
-	userList = [{'charttype' : 'bar', userSet : '10%', 'sysSet':'12%', userId: ''},
-				{'charttype' : 'pie', userSet : '10%', 'sysSet':'12%', userId: ''},
-				{'charttype' : 'radar', userSet : '10%', 'sysSet':'12%', userId: ''}
+	userList = [{'charttype' : 'bar', userSet : '10%', 'sysSet':'12%'},
+				{'charttype' : 'pie', userSet : '10%', 'sysSet':'12%'},
+				{'charttype' : 'radar', userSet : '10%', 'sysSet':'12%'},
+				...
 			]
 
 	*/
@@ -12,6 +13,7 @@ $(document).ready(function() {
 	var numQuestion = 6;
 	var originNum = numQuestion;
 	var sys = 0;
+	var typeName = '';
 
 	var randomNum = getRandomInt(1,7) - 1;
 
@@ -25,6 +27,15 @@ $(document).ready(function() {
 	]
 
 	var order = latinSquare[randomNum];
+
+	var orderSingleToChartName = {
+	'A' : 'Bar',
+	'D' : 'Bar',
+	'B' : 'Pie',
+	'E' : 'Pie',
+	'C' : 'Radial',
+	'F' : 'Radial'
+	};
 
 	function createSvg(){
 		$('#warper').prepend('<div id = \'content\'></div>');
@@ -42,16 +53,19 @@ $(document).ready(function() {
 		createSvg();
 		$('#note').remove();
 		sys = $('#content').myfunction(order[0]);
-		$('#nextButton').show();
+		typeName = orderSingleToChartName[order[0]];
 
+		$('#nextButton').show();
 		slider();
 	});
 
 	$('#next').on('click',function(event){
 		event.preventDefault();
 		var singleDict = {};
-		singleDict['userSet'] = +$('#percent-display').text();
+		singleDict['charttype'] = typeName;
 		singleDict['sysSet'] = sys;
+		singleDict['userSet'] = +$('#percent-display').text();
+		
 		//console.log(singleDict);
 		
 		userList.push(singleDict);
@@ -63,9 +77,19 @@ $(document).ready(function() {
 			$('#thanks').show();
 			var table = $.makeTable(userList);
 			$(table).appendTo("#thanks");
+			console.log(userList);
+			$.ajax({
+				method: "GET",
+				url: 'store_data',
+				contentType: 'application/json;charset=UTF-8',
+				data: {user_list: JSON.stringify(userList)}
+			}).done(function (data) {
+				console.log('success')
+			});
 		}else{
 			createSvg();
 			sys = $('#content').myfunction(order[originNum - numQuestion + 1]);	
+			typeName = orderSingleToChartName[order[originNum - numQuestion + 1]];
 			slider();
 
 			//console.log(+$('#slider').val());
@@ -73,23 +97,9 @@ $(document).ready(function() {
 			$('#done').text((originNum - numQuestion + 1) + ' / ' + originNum);
 		}
 	});
-
-	console.log(userList);
-
-	//var test_array = [["name1", 2, 3], ["name2", 4, 5], ["name3", 6, 7], ["name4", 8, 9], ["name5", 10, 11]];
-	// var fname = "IJGResults";
-
-	// var csvContent = "data:text/csv;charset=utf-8,";
-	// $("#pressme").click(function(){
-	// 	userList.forEach(function(infoArray, index){
-	// 		dataString = infoArray.join(",");
-	// 		csvContent += index < infoArray.length ? dataString+ "\n" : dataString;
-	// 	});
-
-	// 	var encodedUri = encodeURI(csvContent);
-	// 	window.open(encodedUri);
-	//});
+	
 });
+
 
 
 /* select random chart type tp show */
@@ -368,7 +378,7 @@ function makeRadial() {
 	      .style("font-weight","bold")
 	      .text("·");
 
-	return chosenA;
+	return realPercent;
 
 
 };
