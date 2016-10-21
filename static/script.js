@@ -17,6 +17,7 @@ $(document).ready(function() {
 
 	var randomNum = getRandomInt(1,7) - 1;
 
+	//reference : http://hamsterandwheel.com/grids/index2d.php
 	var latinSquare = [
 		['F','B','A','C','D','E'],
 		['E','C','B','F','A','D'],
@@ -48,6 +49,7 @@ $(document).ready(function() {
 		createSvg();
 		exampleBar();
 		$('#example').show();
+		slider();
 	});
 
 
@@ -105,7 +107,6 @@ $(document).ready(function() {
 
 
 /* select random chart type tp show */
-//reference : http://hamsterandwheel.com/grids/index2d.php
 (function( $ ){
    $.fn.myfunction = function(orderSingle) {
 
@@ -153,7 +154,12 @@ $.makeTable = function (mydata) {
     $.each(mydata, function (index, value) {
         var TableRow = "<tr>";
         $.each(value, function (key, val) {
-            TableRow += "<td>" + val + "</td>";
+        	//console.log(key);
+        	if (key == 'charttype'){
+        		TableRow += "<td>" + val + "</td>";
+        	}else{
+        		TableRow += "<td>" + val + '%' + "</td>";
+        	}
         });
         TableRow += "</tr>";
         $(table).append(TableRow);
@@ -176,7 +182,7 @@ function makeBar(){
           
       var dataBar = [];
       for (var i=0; i<N; i++) {
-          var data = Math.random() * 100;   // random number (0-100)
+      	  var data = Math.random() * (39 - 3) + 3;   // random number (30-100)
           dataBar.push(data);
       }
 
@@ -200,9 +206,9 @@ function makeBar(){
          .enter()
          .append("rect")
          .attr("x", function(d, i) { return 70 + i * (w/dataBar.length); })
-         .attr("y", function(d) { return 180 + h - 2.5 * d; })
+         .attr("y", function(d) { return 180 + h - 7 * d; })
          .attr("width", barWidth)
-         .attr("height", function(d) { return d * 2.5; })
+         .attr("height", function(d) { return d * 7; })
          .attr("fill", "#ffffff")
          .attr("stroke", "#000000");
 
@@ -211,15 +217,13 @@ function makeBar(){
                     .enter()
                     .append("circle")
                     .attr("cx", function(d, i) { return 70 + d[1] * (w/dataBar.length) + barWidth * 0.5; })
-                    .attr("cy", function(d) { return 0.5 * (360 + 2 * h - 2.5 * d[0]); })
+                    .attr("cy", function(d) { return 0.5 * (360 + 2 * h - 7 * d[0]); })
                     .attr("r", 3)
                     .attr("fill", "#000000");
 
      return realPercent;
 
 };
-
-
 
 /* make Pie chart */
 function makePie(){
@@ -236,7 +240,7 @@ function makePie(){
 	  
 	  var dataPie = [];
 	  for (var i=0; i<N; i++) {
-	      var data = Math.random() * 100;   // random number (0-100)
+	      var data = Math.random() * (39 - 3) + 3;   // random number (30-100)
 	      dataPie.push(data);
 	  }
 
@@ -319,7 +323,7 @@ function makeRadial() {
                         {"value":0, "outerRadius":0}];
                 
       for (var i=0; i<numBars; i++) {
-          var data = Math.random() * (100 - 30) + 30;   // random number (0-100)
+          var data = Math.random() * (100 - 30) + 30;   // random number (30-100)
           values.push(data);
       };
       dataRadial.forEach(function (d, i) {
@@ -405,7 +409,7 @@ function exampleBar(){
           var data = Math.random() * 100;   // random number (0-100)
           dataBar.push(data);
       }
-	  dataBar[0] = 40;
+	  dataBar[0] = 20;
 	  dataBar[1] = 80;
 
       var barWidth = w/dataBar.length - barPadding;

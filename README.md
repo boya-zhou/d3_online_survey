@@ -1,5 +1,5 @@
 Assignment 4 - Replicating a Classic Experiment  
-===
+
 [Link](http://boyazhou1993.github.io/04-Experiment/templates/index.html)
 Q: How do we know that bar charts are better than pie charts?  
 A: Controlled experiments!
