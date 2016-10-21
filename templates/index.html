@@ -10,20 +10,20 @@
 		<div id = 'welcome'>
 			<h2>How accurately can you read a chart?</h2>
 			<hr>
-			<p>In this experiment,</p>
-		    <p>you are asked to judge</p>
-			<p><b>what is the percent of the smaller value to a larger value in several charts.</b></p>
+			<p>In this experiment,you are asked to judge:</p>
+			<p><b>What is the percent of the smaller value to a larger value in several charts?</b></p>
 		    <p>You will be given 6 charts of 10 random numbers.</p>
 			<p>Click <b>Let's Start!</b> to proceed.</p>
         	<input type="button" class="Button" id="welButton" value="Let's start!">
 		</div>
 		<div id = 'note'>
-			<p>This is an example.</p>
-			<p>In this case, the smaller one is about half of the larger one.</p>
-			<p>Then move the slider controller to 50%.</p>
+			<p>This is an example: </p>
+			<p>In this case, if you feel the smaller one is about 25% of the larger one.</p>
+			<p>Then move the slider controller around to 25%.</p>
 			<form id='example'>
-                <input id="exampleSlider" type="range" min="0" max="100" step="1">
-                <span id="example-percent-display">50</span>%
+                The smaller element is
+                <input id="slider" type="range" min="0" max="100" step="1">
+                <span id="percent-display">50</span>% of the larger element.
             </form>
 			<p><b>Notice</b> that the value of radial charts corresponds to its radius, not area.</p>
 			<input type = 'button' class="Button" id = 'noteButton' value = 'Got it!'>
@@ -39,6 +39,7 @@
 		</div>
 		<div id = 'thanks'>
 			<h3>Thank you for your participation!</h3>
+			<p>This will help us learn more about data visualzation.</p>
 		</div>
 	</div>
 	<script src="../static/jquery-3.1.1.js"></script>

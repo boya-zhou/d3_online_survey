@@ -44,13 +44,19 @@ hr {
     float: right;
 }
 
-#warper {
+#warper, #content{
 	text-align: center;
 	vertical-align: middle;
 }
 
-#welcome, #note, #thanks {
-    text-align: center;
+#welcome, #note {
+    text-align: left;
+    max-width: 40em;
+    margin: auto;
+}
+
+#thanks {
+    text-align: middle;
     max-width: 40em;
     margin: auto;
 }
