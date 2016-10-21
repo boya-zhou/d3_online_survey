@@ -1,46 +1,73 @@
-#expContent,#nextButton,#note,#thanks {
+#expContent, #nextButton, #note, #thanks {
 	display: none;
 }
 
-/*
-
-html, body, #wraper {
-    margin: 0;
-    padding: 0;
+html, body {
     height: 100%;
+}
+
+html {
+    display: table;
+    margin: auto;
     width: 100%;
 }
 
+body {
+    width: 80%;
+    font-family: Helvetica;
+    display: table-cell;
+    vertical-align: middle;
+}
 
+hr {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+}
 
-#welButton {
+.Button {
     font-size: inherit;
     border: none;
-    color: white;
-    background-color: black;
+    color: black;
+    background-color: #e7e7e7;
     margin: 3px 6px 3px 36px;
     padding: 10px 20px;
+    border-radius: 12px;
     transition: margin .5s, padding .5s;
 }
 
+#welButton, #noteButton {
+    float: right;
+}
+
 #warper {
-	font-family: sans-serif;
 	text-align: center;
 	vertical-align: middle;
-
 }
 
-body {
-	
-    display: table-cell;
-    margin: 0;
-    padding: 0;
-    
-}
-
-#thanks, #welcome {
-    text-align: left;
-    max-width: 30em;
+#welcome, #note, #thanks {
+    text-align: center;
+    max-width: 40em;
     margin: auto;
 }
-*/
+
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #e7e7e7;
+    color: black;
+}

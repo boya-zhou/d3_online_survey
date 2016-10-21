@@ -45,11 +45,15 @@ $(document).ready(function() {
 	$('#welButton').on('click',function(){
 		$('#welcome').remove();
 		$('#note').show();
+		createSvg();
+		exampleBar();
+		$('#example').show();
 	});
 
 
 	$('#noteButton').on('click',function(userList){
-		
+		$('#content').remove();
+		$('#example').remove();
 		createSvg();
 		$('#note').remove();
 		sys = $('#content').myfunction(order[0]);
@@ -65,9 +69,7 @@ $(document).ready(function() {
 		singleDict['charttype'] = typeName;
 		singleDict['sysSet'] = sys;
 		singleDict['userSet'] = +$('#percent-display').text();
-		
-		//console.log(singleDict);
-		
+			
 		userList.push(singleDict);
 		//console.log(userList);
 
@@ -80,7 +82,7 @@ $(document).ready(function() {
 			console.log(userList);
 			$.ajax({
 				method: "GET",
-				url: 'store_data',
+				url: 'http://a2decad7.ngrok.io/store_data',
 				contentType: 'application/json;charset=UTF-8',
 				data: {user_list: JSON.stringify(userList)}
 			}).done(function (data) {
@@ -142,9 +144,10 @@ function getRandomInt(min, max) {
 
 //reference: http://stackoverflow.com/questions/1051061/convert-json-array-to-an-html-table-in-jquery
 $.makeTable = function (mydata) {
-    var table = $('<table border=1>');
+    var table = $('<table>');
     var tblHeader = "<tr>";
-    for (var k in mydata[0]) tblHeader += "<th>" + k + "</th>";
+	tblHeader += "<th>Chart Type</th><th>Actual Value</th><th>Your Value</th>";
+    //for (var k in mydata[0]) tblHeader += "<th>" + k + "</th>";
     tblHeader += "</tr>";
     $(tblHeader).appendTo(table);
     $.each(mydata, function (index, value) {
@@ -158,6 +161,8 @@ $.makeTable = function (mydata) {
     return ($(table));
 };
 
+
+
 /* make Bar chart */
 function makeBar(){
 	  
@@ -167,7 +172,7 @@ function makeBar(){
       var w = 500,
           h = 100,
           N = 10,
-          barPadding = 15;
+          barPadding = 10;
           
       var dataBar = [];
       for (var i=0; i<N; i++) {
@@ -176,26 +181,25 @@ function makeBar(){
       }
 
       var barWidth = w/dataBar.length - barPadding;
-      var chosenA = getRandomInt(0, N-1);
+      var chosenA = getRandomInt(0, N);
       var chosenB;
       for (i=0; i<10; i++) {
-        chosenB = getRandomInt(0, N-1);
+        chosenB = getRandomInt(0, N);
         if (chosenB != chosenA) {
           i = 10;
         }
       }
       var dataChosen = [[dataBar[chosenA], chosenA],
                         [dataBar[chosenB], chosenB]];
-
-      max = d3.max([dataBar[chosenA], dataBar[chosenB]]);
-	  min = d3.min([dataBar[chosenA], dataBar[chosenB]]);
-	  realPercent = (min * 100)/max;
+	  var max = d3.max([dataBar[chosenA], dataBar[chosenB]]);
+	  var min = d3.min([dataBar[chosenA], dataBar[chosenB]]);
+	  var realPercent = (min * 100)/max;
 
       svg.selectAll("rect")
          .data(dataBar)
          .enter()
          .append("rect")
-         .attr("x", function(d, i) { return 140 + i * (w/dataBar.length); })
+         .attr("x", function(d, i) { return 70 + i * (w/dataBar.length); })
          .attr("y", function(d) { return 180 + h - 2.5 * d; })
          .attr("width", barWidth)
          .attr("height", function(d) { return d * 2.5; })
@@ -206,15 +210,16 @@ function makeBar(){
                     .data(dataChosen)
                     .enter()
                     .append("circle")
-                    .attr("cx", function(d, i) { return 140 + d[1] * (w/dataBar.length) + barWidth * 0.5; })
+                    .attr("cx", function(d, i) { return 70 + d[1] * (w/dataBar.length) + barWidth * 0.5; })
                     .attr("cy", function(d) { return 0.5 * (360 + 2 * h - 2.5 * d[0]); })
                     .attr("r", 3)
                     .attr("fill", "#000000");
 
      return realPercent;
 
-
 };
+
+
 
 /* make Pie chart */
 function makePie(){
@@ -243,6 +248,9 @@ function makePie(){
 	      i = 10;
 	    }
 	  }
+	  var max = d3.max([dataPie[chosenA], dataPie[chosenB]]);
+	  var min = d3.min([dataPie[chosenA], dataPie[chosenB]]);
+	  var realPercent = (min * 100)/max;
 
 	  var pie = d3.layout.pie();
 	  var dataChosen = [pie(dataPie)[chosenA], pie(dataPie)[chosenB]];
@@ -251,16 +259,13 @@ function makePie(){
 	                  .innerRadius(innerRadius)
 	                  .outerRadius(outerRadius);
 	  
-	  max = d3.max([dataPie[chosenA], dataPie[chosenB]]);
-	  min = d3.min([dataPie[chosenA], dataPie[chosenB]]);
-	  realPercent = (min * 100)/max;
 	  // set up groups
 	  var arcs = svg.selectAll("g.arc")
 	                .data(pie(dataPie))
 	                .enter()
 	                .append("g")
 	                .attr("class", "arc")
-	                .attr("transform", "translate("+outerRadius+", "+outerRadius+")");
+	                .attr("transform", "translate("+(outerRadius+160)+", "+outerRadius+")");
 	                
 	  // location of marks
 	  var markArc = d3.svg.arc()
@@ -290,95 +295,143 @@ function makePie(){
 /* make Radial chart */
 function makeRadial() {
 
-	  var width = 900,
-	      height = 400,
-	      barHeight = height / 2 - 40,
+      var width = 900,
+          height = 400,
+          barHeight = height / 2 - 40,
 		  numBars = 10;
 
-	  var formatNumber = d3.format("s");
+      var formatNumber = d3.format("s");
 
-	  var svg = d3.select('svg')
-	              .append("g")
-	              .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
+      var svg = d3.select('svg')
+                  .append("g")
+                  .attr("transform", "translate(" + width/3 + "," + height/2 + ")");
 
-	  var values = [];
-	  var dataRadial = [{"value":0, "outerRadius":0}, 
-	                    {"value":0, "outerRadius":0}, 
-	                    {"value":0, "outerRadius":0}, 
-	                    {"value":0, "outerRadius":0}, 
-	                    {"value":0, "outerRadius":0}, 
-	                    {"value":0, "outerRadius":0}, 
-	                    {"value":0, "outerRadius":0}, 
-	                    {"value":0, "outerRadius":0}, 
-	                    {"value":0, "outerRadius":0}, 
-	                    {"value":0, "outerRadius":0}];
-	            
-	  for (var i=0; i<numBars; i++) {
-	      var data = Math.random() * (100 - 30) + 30;   // random number (0-100)
-	      values.push(data);
-	  };
-	  dataRadial.forEach(function (d, i) {
-	      d.value = values[i];
-	  });
-
+      var values = [];
+      var dataRadial = [{"value":0, "outerRadius":0}, 
+                        {"value":0, "outerRadius":0}, 
+                        {"value":0, "outerRadius":0}, 
+                        {"value":0, "outerRadius":0}, 
+                        {"value":0, "outerRadius":0}, 
+                        {"value":0, "outerRadius":0}, 
+                        {"value":0, "outerRadius":0}, 
+                        {"value":0, "outerRadius":0}, 
+                        {"value":0, "outerRadius":0}, 
+                        {"value":0, "outerRadius":0}];
+                
+      for (var i=0; i<numBars; i++) {
+          var data = Math.random() * (100 - 30) + 30;   // random number (0-100)
+          values.push(data);
+      };
+      dataRadial.forEach(function (d, i) {
+          d.value = values[i];
+      });
+    
 	  /* random picked number */
-	  var chosenA = getRandomInt(0, numBars - 1);
-	  var chosenB;
-	  for (i=0; i<10; i++) {
-	      chosenB = getRandomInt(0, numBars - 1);
-	      if (chosenB != chosenA) {
-	          i = 10;
-	      }
-	  }
-	  var dataChosen = [chosenA, chosenB];
+      var chosenA = getRandomInt(0, numBars);
+      var chosenB;
+      for (i=0; i<10; i++) {
+          chosenB = getRandomInt(0, numBars);
+          if (chosenB != chosenA) {
+              i = 10;
+          }
+      }
+      var dataChosen = [chosenA, chosenB];
+	  var max = d3.max([values[chosenA], values[chosenB]]);
+	  var min = d3.min([values[chosenA], values[chosenB]]);
+	  var realPercent = (min * 100)/max;
+  
+      var extent = d3.extent(dataRadial, function(d) { return d.value; });
+      var barScale = d3.scale.linear()
+                       .domain(extent)
+                       .range([0, barHeight]);
 
-	  max = d3.max([dataRadial[chosenA], dataRadial[chosenB]]);
-	  min = d3.min([dataRadial[chosenA], dataRadial[chosenB]]);
-	  realPercent = (min * 100)/max;
-
-	  var extent = d3.extent(dataRadial, function(d) { return d.value; });
-	  var barScale = d3.scale.linear()
-	                   .domain(extent)
-	                   .range([0, barHeight]);
-
-	  var arc = d3.svg.arc()
-	              .startAngle(function(d,i) { return (i * 2 * Math.PI) / numBars; })
+      var arc = d3.svg.arc()
+                  .startAngle(function(d,i) { return (i * 2 * Math.PI) / numBars; })
 				  .endAngle(function(d,i) { return ((i + 1) * 2 * Math.PI) / numBars; })
 				  .innerRadius(0);
 
-	  var segments = svg.selectAll("path")
-	                    .data(dataRadial)
-	                    .enter()
-	                    .append("path")
+      var segments = svg.selectAll("path")
+                        .data(dataRadial)
+                        .enter()
+                        .append("path")
 						.style("fill", "#ffffff")
 						.style("stroke", "#000000")
 						.attr("d", function(d, index) {
 							d.outerRadius = d.value * 2;
 							return arc(d, index);
-	                    });
-	      
-	  // Marks
-	  var markRadius = barHeight - 140;
+                        });
+          
+      // Marks
+      var markRadius = barHeight - 140;
 
-	  var marks = svg.append("g")
-	                 .classed("marks", true)
-					 .append("def")
-	                 .append("path")
-	                 .attr("id", "label-path")
-					 .attr("d", "m0 " + -markRadius + " a" + markRadius + " " + markRadius + " 0 1,1 -0.01 0");
+      var marks = svg.append("g")
+                     .classed("marks", true);
 
-	  marks.selectAll("text")
-	       .data(dataChosen)
-	       .enter()
+	  marks.append("def")
+           .append("path")
+		   .attr("id", "label-path")
+		   .attr("d", "m0 " + -markRadius + " a" + markRadius + " " + markRadius + " 0 1,1 -0.01 0");
+
+      marks.selectAll("text")
+           .data(dataChosen)
+           .enter()
 		   .append("text")
-	       .style("text-anchor", "middle")
-	       .append("textPath")
-	       .attr("xlink:href", "#label-path")
-	       .attr("startOffset", function(d, i) {return d * 100 / numBars + 50 / numBars + '%';})
-	      .style("font-weight","bold")
-	      .text("·");
+           .style("text-anchor", "middle")
+           .append("textPath")
+           .attr("xlink:href", "#label-path")
+           .attr("startOffset", function(d, i) {return d * 100 / numBars + 50 / numBars + '%';})
+          .style("font-weight","bold")
+          .text("·");
 
-	return realPercent;
+	  return realPercent;
 
+}
+
+
+
+/* make Bar chart */
+function exampleBar(){
+	  
+	  var content = d3.select("#content");
+
+      var svg = d3.select("svg");
+      var w = 500,
+          h = 100,
+          N = 10,
+          barPadding = 10;
+          
+      var dataBar = [];
+      for (var i=0; i<N; i++) {
+          var data = Math.random() * 100;   // random number (0-100)
+          dataBar.push(data);
+      }
+	  dataBar[0] = 40;
+	  dataBar[1] = 80;
+
+      var barWidth = w/dataBar.length - barPadding;
+      var chosenA = 0;
+      var chosenB = 1;
+	  var dataChosen = [[dataBar[chosenA], chosenA],
+                        [dataBar[chosenB], chosenB]];
+
+      svg.selectAll("rect")
+         .data(dataBar)
+         .enter()
+         .append("rect")
+         .attr("x", function(d, i) { return 70 + i * (w/dataBar.length); })
+         .attr("y", function(d) { return 180 + h - 2.5 * d; })
+         .attr("width", barWidth)
+         .attr("height", function(d) { return d * 2.5; })
+         .attr("fill", "#ffffff")
+         .attr("stroke", "#000000");
+
+      var mark = svg.selectAll("circle")
+                    .data(dataChosen)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function(d, i) { return 70 + d[1] * (w/dataBar.length) + barWidth * 0.5; })
+                    .attr("cy", function(d) { return 0.5 * (360 + 2 * h - 2.5 * d[0]); })
+                    .attr("r", 3)
+                    .attr("fill", "#000000");
 
 };
