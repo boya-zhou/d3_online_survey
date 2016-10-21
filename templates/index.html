@@ -2,37 +2,43 @@
 <html>
 <head>
 	<title>04-Experiment</title>
+	<meta charset="utf-8">
 	<link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 	<div id = 'warper'>
 		<div id = 'welcome'>
 			<h2>How accurately can you read a chart?</h2>
-			<p id = 'welText'>
-				You will be shown 12 visualizations of 10 random numbers. 
-		        Two elements will be marked in each visualization.
-		        Indicate what percent the smaller element is of the larger element using the slider,
-		        then click <b>Let's Start!</b>
-	        </p>
-        	<input type="button" id="welButton" value="Let's start!">
+			<hr>
+			<p>In this experiment,</p>
+		    <p>you are asked to judge</p>
+			<p><b>what is the percent of the smaller value to a larger value in several charts.</b></p>
+		    <p>You will be given 6 charts of 10 random numbers.</p>
+			<p>Click <b>Let's Start!</b> to proceed.</p>
+        	<input type="button" class="Button" id="welButton" value="Let's start!">
 		</div>
 		<div id = 'note'>
-			<p>this is some note to help user finish</p>
-			<input type = 'button' id = 'noteButton' value = 'got it'>
+			<p>This is an example.</p>
+			<p>In this case, the smaller one is about half of the larger one.</p>
+			<p>Then move the slider controller to 50%.</p>
+			<form id='example'>
+                <input id="exampleSlider" type="range" min="0" max="100" step="1">
+                <span id="example-percent-display">50</span>%
+            </form>
+			<p><b>Notice</b> that the value of radial charts corresponds to its radius, not area.</p>
+			<input type = 'button' class="Button" id = 'noteButton' value = 'Got it!'>
 		</div>
 		<div>
 			<form id='nextButton' action="#">
                 The smaller element is
                 <input id="slider" type="range" min="0" max="100" step="1">
                 <span id="percent-display">50</span>% of the larger element.
-                <input id="next" type="submit" value="Next">
+                <input id="next" class="Button" type="submit" value="Next">
                 <span id="done">1 / 6</span>
             </form>
 		</div>
 		<div id = 'thanks'>
-			<p>
-				Thank you for your participation.
-			</p>
+			<h3>Thank you for your participation!</h3>
 		</div>
 	</div>
 	<script src="/static/jquery-3.1.1.js"></script>
