@@ -21,10 +21,9 @@ The Bootstrapped 95% Confidence Intervals of the three charts:
 - **Latin Square design** was implemented in this experiment to ensure that the 60 trials are counterbalanced
 
 ## Design Achievements
-- 3 elementary tasks are involved in this experiment: 
-  - **Position**: Bar Chart
-  - **Position-angle**: Pie Chart
-  - ****: Radial
+- 2 elementary tasks are involved in this experiment: 
+  - **Position**: Bar Chart, Radial Chart
+  - **Angle**: Pie Chart
 - Friendly interfere without any extra information
 
 ## Collaboration
