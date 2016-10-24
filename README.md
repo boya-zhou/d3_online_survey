@@ -13,6 +13,7 @@ We replicated the classic experiment originally implemented by Cleveland and McG
 ![Pie Chart](img/pie.png)
 ![Radial Chart](img/radial.png)
 ![Result Page](img/result.png)
+
 The Bootstrapped 95% Confidence Intervals of the three charts:
 ![CI](img/CI.png)
 
