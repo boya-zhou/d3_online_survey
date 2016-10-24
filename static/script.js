@@ -84,7 +84,7 @@ $(document).ready(function() {
 			console.log(userList);
 			$.ajax({
 				method: "GET",
-				url: 'https://a2decad7.ngrok.io/store_data',
+				url: 'https://45db485c.ngrok.io/store_data',
 				contentType: 'application/json;charset=UTF-8',
 				data: {user_list: JSON.stringify(userList)}
 			}).done(function (data) {
