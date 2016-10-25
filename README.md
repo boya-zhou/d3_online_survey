@@ -8,11 +8,22 @@
 ## Description
 We replicated the classic experiment originally implemented by Cleveland and McGill (1984). In this experiment, each participants are given 6 visualizations including 3 types of charts: **bar chart**, **piee chart** and **radial chart**. All results are stored in the server served by our PC using Flask.
 
+## Welcome Page
 ![Welcome Page](img/welcome.png)
+
+## User Guide Page
 ![Example Page](img/example.png)
+
+## Bar Chart 
 ![Bar Chart](img/bar.png)
+
+## Pie Chart
 ![Pie Chart](img/pie.png)
+
+## Radial Chart
 ![Radial Chart](img/radial.png)
+
+## Result and Thanks
 ![Result Page](img/result.png)
 
 The Bootstrapped 95% Confidence Intervals of the three charts:
@@ -44,7 +55,11 @@ The Bootstrapped 95% Confidence Intervals of the three charts:
 
 #### Reference
 - [http://hamsterandwheel.com/grids/index2d.php](http://hamsterandwheel.com/grids/index2d.php)
-- [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random)
-- [http://stackoverflow.com/questions/1051061/convert-json-array-to-an-html-table-in-jquery](http://stackoverflow.com/questions/1051061/convert-json-array-to-an-html-table-in-jquery)
+- https://benmcmorran.github.io/04-Experiment/
+- [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random]
+- (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random)
+- [http://stackoverflow.com/questions/1051061/convert-json-array-to-an-html-table-in-jquery]
+- (http://stackoverflow.com/questions/1051061/convert-json-array-to-an-html-table-in-jquery)
 - [https://bl.ocks.org/bricedev/8aaef92e64007f882267](https://bl.ocks.org/bricedev/8aaef92e64007f882267)
 
+Notice that we reference one of our classmates high quality homework. We reference the range button idea and the result table idea. 
