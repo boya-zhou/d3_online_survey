@@ -26,7 +26,9 @@ We replicated the classic experiment originally implemented by Cleveland and McG
 ## Result and Thanks
 ![Result Page](img/result.png)
 
+## Results of CI
 The Bootstrapped 95% Confidence Intervals of the three charts:
+
 ![CI](img/CI.png)
 
 ## Technical Achievements
@@ -54,12 +56,13 @@ The Bootstrapped 95% Confidence Intervals of the three charts:
   - use CSS to modify the website 
 
 #### Reference
-- [http://hamsterandwheel.com/grids/index2d.php](http://hamsterandwheel.com/grids/index2d.php)
+- http://hamsterandwheel.com/grids/index2d.php
+- http://hamsterandwheel.com/grids/index2d.php
 - https://benmcmorran.github.io/04-Experiment/
-- [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random]
-- (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random)
-- [http://stackoverflow.com/questions/1051061/convert-json-array-to-an-html-table-in-jquery]
-- (http://stackoverflow.com/questions/1051061/convert-json-array-to-an-html-table-in-jquery)
-- [https://bl.ocks.org/bricedev/8aaef92e64007f882267](https://bl.ocks.org/bricedev/8aaef92e64007f882267)
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+- http://stackoverflow.com/questions/1051061/convert-json-array-to-an-html-table-in-jquery
+- http://stackoverflow.com/questions/1051061/convert-json-array-to-an-html-table-in-jquery
+- https://bl.ocks.org/bricedev/8aaef92e64007f882267](https://bl.ocks.org/bricedev/8aaef92e64007f882267
 
 Notice that we reference one of our classmates high quality homework. We reference the range button idea and the result table idea. 
